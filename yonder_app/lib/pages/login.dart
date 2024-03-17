@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yonder_app/pages/profile.dart';
+
+import '../firebase/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +15,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  bool _isSigning = false;
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   bool sifre_gozukme=false;
   @override
@@ -40,9 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.only(top:80,bottom: 40,right:30,left: 30),
                     padding: EdgeInsets.only(left: 15, right: 15,top: 5, bottom: 5),
                     child: TextFormField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                          hintText: 'E-mail'
+                          hintText: 'E-mail',
                       ),
                     ),
                   ),
@@ -57,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            controller: _passwordController,
                             obscureText: sifre_gozukme,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -79,6 +99,8 @@ class _LoginPageState extends State<LoginPage> {
                   InkWell(
                     onTap: () {
                       print("Tıklama");
+                      _signIn();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
                     },
                     child: Container(
                       margin: EdgeInsets.only(top:10,bottom: 40,right:30,left: 30),
@@ -137,5 +159,27 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+  void _signIn() async {
+    setState(() {
+      _isSigning = true;
+    });
+
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    setState(() {
+      _isSigning = false;
+    });
+
+    if (user != null) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
+    } else {
+      print("Mirhba");
+    }
+  }
+
 }
+
 
