@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:yonder_app/pages/chat_screen.dart';
 import 'package:yonder_app/firebase_options.dart';
 import 'package:yonder_app/pages/login.dart';
 import 'package:yonder_app/pages/profile.dart';
