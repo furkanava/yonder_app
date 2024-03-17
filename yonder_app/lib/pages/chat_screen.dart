@@ -44,7 +44,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ? CircularProgressIndicator()
               : ElevatedButton(
                   onPressed: () {
-                    _sendMessage("Rota öner");
+                    _sendMessage("bana şehir gezisi düzenlemeni istiyorum en üstte şehir/ülke adı genel bilgiler 
+                    5 adet turistik yer 5 adet yemek 5 adet ulaşım 5 adet iklim  5 adet 5 adet konaklama yeri 
+                    kısa kısa yazmanı istiyorum ve gezi konseptleri olarak 5 adet eğlence mekanı 5 adet kültürel yer yazmanı istiyorum");
                   },
                   child: Text("Rota Öner"),
                 ),
