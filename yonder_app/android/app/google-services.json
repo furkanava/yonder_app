@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293861379303",
+    "project_id": "appjam5",
+    "storage_bucket": "appjam5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293861379303:android:2d7ad532f94c8c1767a642",
+        "android_client_info": {
+          "package_name": "com.example.yonder_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCglQTKeRBytCOn6sGNNDpHsWDAgF0Sc3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
