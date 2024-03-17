@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:yonder_app/pages/rota.dart';
+import 'package:yonder_app/pages/profile.dart';
 
-
+import '../firebase/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +15,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  bool _isSigning = false;
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   bool sifre_gozukme=false;
   @override
@@ -28,10 +45,10 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     margin: EdgeInsets.only(top:80, left:20, right:20),
                     child: Text("Hoş Geldin",
-                      style: GoogleFonts.inter(
-                        color: Colors.black87,
-                        fontSize:40,
-                        fontWeight: FontWeight.w500, )),
+                        style: GoogleFonts.inter(
+                          color: Colors.black87,
+                          fontSize:40,
+                          fontWeight: FontWeight.w500, )),
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -41,9 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.only(top:80,bottom: 40,right:30,left: 30),
                     padding: EdgeInsets.only(left: 15, right: 15,top: 5, bottom: 5),
                     child: TextFormField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                          hintText: 'E-mail'
+                        hintText: 'E-mail',
                       ),
                     ),
                   ),
@@ -58,11 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            controller: _passwordController,
                             obscureText: sifre_gozukme,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Şifre',
-                          
+                              border: InputBorder.none,
+                              hintText: 'Şifre',
+
                             ),
                           ),
                         ),
@@ -71,53 +90,50 @@ class _LoginPageState extends State<LoginPage> {
                             sifre_gozukme=!sifre_gozukme;
                           });
                         }, icon: Icon(
-                            sifre_gozukme ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
-                            ), color: Colors.green,)
+                          sifre_gozukme ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
+                        ), color: Colors.green,)
                       ],
                     ),
                   ),
 
                   InkWell(
-                    onTap: ()  {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Rota(),
-                      ),
-                      );
+                    onTap: () {
+                      print("Tıklama");
+                      _signIn();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
                     },
                     child: Container(
                       margin: EdgeInsets.only(top:10,bottom: 40,right:30,left: 30),
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Color(0xff5db075),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.blueGrey,
-                              offset: Offset(0,4),
-                            blurRadius: 5
-                          )
-                        ]
+                          color: Color(0xff5db075),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.blueGrey,
+                                offset: Offset(0,4),
+                                blurRadius: 5
+                            )
+                          ]
                       ),
                       child: Center (
-                        child: Text("Giriş Yap",
-                         style: GoogleFonts.inter(
-                          color: Colors.white
-                      ))),
-              
+                          child: Text("Giriş Yap",
+                              style: GoogleFonts.inter(
+                                  color: Colors.white
+                              ))),
+
                     ),
                   ),
                   Center(
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left:150, right: 10),
-                          child: IconButton(onPressed:  () {
-                          }, icon: Icon(
-                            Icons.facebook_outlined,
-                          ), color: Colors.green,)
+                            margin: EdgeInsets.only(left:150, right: 10),
+                            child: IconButton(onPressed:  () {
+                            }, icon: Icon(
+                              Icons.facebook_outlined,
+                            ), color: Colors.green,)
                         ),
                         Container(
                             margin: EdgeInsets.symmetric(),
@@ -143,5 +159,25 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
-}
+  void _signIn() async {
+    setState(() {
+      _isSigning = true;
+    });
 
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    setState(() {
+      _isSigning = false;
+    });
+
+    if (user != null) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
+    } else {
+      print("Mirhba");
+    }
+  }
+
+}

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yonder_app/pages/rota.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
