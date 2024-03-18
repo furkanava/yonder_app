@@ -38,13 +38,5 @@ size en ve sevdiklerinize en uygun geziyi planlayabilirsiniz.
 
 
 
-  
-
-  
-
-
-![8](https://github.com/buketaytac/yonder_app/assets/163740973/05d161e8-f3a1-4c05-9b33-9aae76b74503)
-
-
 
 
